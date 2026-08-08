@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "advisorsai-check"
+version = "1.0.0"
+description = "Check whether the AI assistants that answer buyer questions can actually read your website."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+keywords = ["llms.txt", "ai-crawlers", "structured-data", "seo", "gptbot", "claudebot", "aeo"]
+authors = [{ name = "Advisors AI", email = "hello@advisorsai.ai" }]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Internet :: WWW/HTTP :: Site Management",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://advisorsai.ai"
+Source = "https://github.com/manmohm/advisorsai-check"
+
+[project.scripts]
+advisorsai-check = "advisorsai_check.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["advisorsai_check"]
