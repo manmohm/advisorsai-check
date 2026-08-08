@@ -29,18 +29,24 @@ from urllib.parse import urljoin, urlparse
 USER_AGENT = "advisorsai-check/1.0 (+https://advisorsai.ai)"
 TIMEOUT = 15
 
-# The crawlers that feed the assistants a buyer actually asks. Blocking one is
-# not a mistake — plenty of businesses choose it deliberately — but it should
-# be a CHOICE, and most sites that block them never knew they did.
-AI_CRAWLERS = (
+# Two kinds of AI crawler, and the difference decides the verdict.
+#
+# ANSWER-ENGINE crawlers feed assistants that CITE you when a buyer asks —
+# blocking one of these costs you mentions, and most sites that block them
+# never chose to (a CDN default chose for them). Blocking these FAILS.
+ANSWER_CRAWLERS = (
     "GPTBot", "OAI-SearchBot", "ChatGPT-User",      # OpenAI
     "ClaudeBot", "Claude-Web", "anthropic-ai",       # Anthropic
     "PerplexityBot", "Perplexity-User",              # Perplexity
     "Google-Extended",                               # Google (Gemini grounding)
     "Applebot-Extended",                             # Apple
-    "CCBot",                                         # Common Crawl
-    "Bytespider", "Amazonbot", "meta-externalagent",
 )
+# SCRAPE-ONLY crawlers collect content without sending buyers back. Blocking
+# them is a legitimate policy many sites choose on purpose, so it is REPORTED
+# as a note, never failed: the tool measures whether you can be cited, and
+# these do not cite.
+SCRAPE_CRAWLERS = ("CCBot", "Bytespider", "Amazonbot", "meta-externalagent")
+AI_CRAWLERS = ANSWER_CRAWLERS + SCRAPE_CRAWLERS       # kept for import compat
 
 
 @dataclass
@@ -135,12 +141,22 @@ def check_robots(base: str) -> list[Signal]:
                 elif any(agent.lower() == c.lower() for c in AI_CRAWLERS):
                     blocked.append(agent)
     if disallow_all:
-        blocked.append("* (every crawler)")
-    if blocked:
         return [Signal("robots", False,
-                       "robots.txt blocks: " + ", ".join(sorted(set(blocked))),
+                       "robots.txt disallows everything for every crawler",
                        2, evidence="/robots.txt")]
-    return [Signal("robots", True, "AI crawlers are not blocked", 2)]
+    answer = sorted({b for b in blocked
+                     if b.lower() in {c.lower() for c in ANSWER_CRAWLERS}})
+    scrape = sorted({b for b in blocked
+                     if b.lower() in {c.lower() for c in SCRAPE_CRAWLERS}})
+    if answer:
+        return [Signal("robots", False,
+                       "robots.txt blocks answer-engine crawlers: "
+                       + ", ".join(answer), 2, evidence="/robots.txt")]
+    detail = "answer-engine crawlers are welcome"
+    if scrape:
+        detail += (" (scrape-only bots blocked by policy: "
+                   + ", ".join(scrape) + " — they collect without citing)")
+    return [Signal("robots", True, detail, 2)]
 
 
 def check_llms_txt(base: str) -> list[Signal]:
