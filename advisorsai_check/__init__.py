@@ -1,4 +1,4 @@
-"""advisorsai-check — can the machines that answer questions read your site?"""
+"""advisorsai-check — bounded machine-readable basics for a public page."""
 from .core import Report, Signal, run
 
 __version__ = "1.0.0"
