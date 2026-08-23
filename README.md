@@ -11,6 +11,20 @@ python -m pip install .
 advisorsai-check example.com
 ```
 
+## Use it from Claude or any MCP client — no install
+
+The same bounded public-page check is available as one remote, read-only MCP
+tool. You provide one public URL; it returns at most one actionable finding
+with a signed, recheckable evidence receipt.
+
+- [Add Advisors AI Store Readiness to Claude](https://claude.ai/customize/connectors?modal=add-custom-connector&connectorName=AdvisorsAI%20Store%20Readiness&connectorUrl=https%3A%2F%2Fadvisorsai.ai%2Fstore-readiness-mcp)
+- Official MCP Registry name: `ai.advisorsai/store-readiness`
+- Streamable HTTP endpoint: `https://advisorsai.ai/store-readiness-mcp`
+
+The remote tool does not write to the submitted site, store the result, share
+it, infer answer-engine rankings, or predict sales. It is new: there are no
+customer case studies yet.
+
 ```
 advisorsai-check  https://example.com
 
