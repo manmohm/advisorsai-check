@@ -306,6 +306,36 @@ class TargetSafetyTests(unittest.TestCase):
         with patch.object(core, "_get", return_value=document):
             self.assertFalse(core.check_home("https://example.com/")[0].ok)
 
+    def test_http_404_is_a_complete_measured_failure_not_transport_loss(self):
+        """A real 404 is marketable evidence, not an unavailable check.
+
+        This deliberately exercises the full runner through ``_fetch_once``.
+        Mutating ``_get`` to collapse HTTP errors into status 0 makes the
+        report partial and this assertion fail.
+        """
+        with (
+            patch.object(
+                core, "_fetch_once",
+                return_value=(404, b"", "", "", ""),
+            ),
+            patch.object(
+                core, "_resolve_public", return_value=["93.184.216.34"]),
+        ):
+            report = core.run("https://example.com/missing")
+
+        self.assertTrue(report.successful)
+        self.assertEqual(report.coverage_percent, 100)
+        self.assertIsNotNone(report.score)
+        self.assertLess(report.score, 100)
+        self.assertEqual(report.errors, [])
+        home = next(signal for signal in report.signals if signal.key == "home")
+        self.assertIs(home.ok, False)
+        self.assertIn("HTTP 404", home.detail)
+        self.assertTrue(any(
+            signal.ok is False and signal.weight > 0
+            for signal in report.signals
+        ))
+
 
 class RobotsPolicyTests(unittest.TestCase):
     def _check(self, body: str):
