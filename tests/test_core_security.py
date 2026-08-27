@@ -498,7 +498,9 @@ class RobotsPolicyTests(unittest.TestCase):
         self.assertTrue(process.killed)
         self.assertEqual(process.communicates, 2)
         self.assertGreater(process.timeout, 0)
-        self.assertLessEqual(process.timeout, 0.05)
+        # Binary float addition/subtraction can exceed the literal budget by a
+        # few picoseconds even though no wall-clock budget was added.
+        self.assertLessEqual(process.timeout, 0.05 + 1e-9)
 
     def test_network_failure_is_unchecked_not_a_site_failure(self):
         checks = (
@@ -1784,6 +1786,32 @@ class SemanticDocumentTests(unittest.TestCase):
             self.assertRaisesRegex(ValueError, "deadline"),
         ):
             core._parse_page_document("<h1>safe input</h1>")
+        self.assertLess(time.perf_counter() - started, 1.0)
+        self.assertEqual(len(processes), 1)
+        self.assertIsNotNone(processes[0].poll())
+
+    def test_request_deadline_stays_stricter_than_spawn_headroom(self):
+        processes = []
+        real_popen = core.subprocess.Popen
+
+        def slow_popen(_args, **kwargs):
+            process = real_popen(
+                [sys.executable, "-c", "import time;time.sleep(60)"],
+                **kwargs,
+            )
+            processes.append(process)
+            return process
+
+        self.assertGreaterEqual(core.HTML_PARSE_TIMEOUT, 10.0)
+        started = time.perf_counter()
+        with (
+            patch.object(core.subprocess, "Popen", side_effect=slow_popen),
+            self.assertRaisesRegex(ValueError, "deadline"),
+        ):
+            core._parse_page_document(
+                "<h1>safe input</h1>",
+                deadline=time.monotonic() + 0.05,
+            )
         self.assertLess(time.perf_counter() - started, 1.0)
         self.assertEqual(len(processes), 1)
         self.assertIsNotNone(processes[0].poll())

@@ -15,11 +15,12 @@ advisorsai-check example.com
 
 The same bounded public-page check is available as one remote, read-only MCP
 tool. You provide one public URL; it returns at most one actionable finding
-with a signed, recheckable evidence receipt.
+with an HMAC evidence receipt that the operator can re-verify.
 
 - [Add Advisors AI Store Readiness to Claude](https://claude.ai/customize/connectors?modal=add-custom-connector&connectorName=AdvisorsAI%20Store%20Readiness&connectorUrl=https%3A%2F%2Fadvisorsai.ai%2Fstore-readiness-mcp)
 - Official MCP Registry name: `ai.advisorsai/store-readiness`
 - Streamable HTTP endpoint: `https://advisorsai.ai/store-readiness-mcp`
+- [Inspect the MCP implementation and its operator boundary](MCP.md)
 
 The remote tool does not write to the submitted site, store the result, share
 it, infer answer-engine rankings, or predict sales. It is new: there are no
@@ -78,7 +79,11 @@ advisorsai-check example.com
 
 The package is not yet published to PyPI. Do not use or advertise a
 `pip install advisorsai-check` command until the release exists there.
-Python 3.9+. The package pins `html5lib==1.1` and `webencodings==0.6.1` so
+The command-line checker core supports Python 3.9+. The optional remote-server
+dependencies require Python 3.10+, and the published server source is for
+inspection of the official operator deployment rather than a turn-key
+self-hosted promise. The package pins `html5lib==1.1` and
+`webencodings==0.6.1` so
 malformed HTML is interpreted with one stable HTML5 tree-construction contract
 and charset labels follow the WHATWG web-encoding registry. The HTML parser and
 fact extractor run in a byte-capped, time-capped child process; there is no

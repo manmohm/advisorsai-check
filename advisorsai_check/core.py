@@ -71,8 +71,9 @@ MAX_HTML_BYTES = 512_000
 MAX_HTML_FACT_BYTES = 256_000
 MAX_HTML_DOM_DEPTH = 4_096
 # Windows spawn can exceed a sub-second slice while other isolated checkers
-# are active.  This remains bounded by the request's absolute TIMEOUT.
-HTML_PARSE_TIMEOUT = 5.0
+# are active.  Direct parser calls get enough startup headroom, while a real
+# check remains bounded by the request's stricter absolute TIMEOUT.
+HTML_PARSE_TIMEOUT = 10.0
 HTTP_READ_CHUNK = 64 * 1024
 
 _deadline_state = threading.local()

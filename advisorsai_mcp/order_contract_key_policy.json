@@ -1,0 +1,20 @@
+{
+  "schema": "order-contract-key-policy/v1",
+  "version": "2026-08-04.1",
+  "active_signing_key_id": "entity-evidence-2026-08-04",
+  "accepted_verification_key_ids": [
+    "entity-evidence-2026-08-04"
+  ],
+  "accepted_attestation_policy_versions": [
+    "2026-08-04.1"
+  ],
+  "keys": [
+    {
+      "key_id": "entity-evidence-2026-08-04",
+      "env_name": "ENTITY_EVIDENCE_ATTESTATION_KEY",
+      "secret_field": "evidence_attestation_key",
+      "material_sha256": "7b108d23d69002ccec13809e5317f2d87f68e9d349ff7476970228ff0fc70340",
+      "usage": "sign_and_verify"
+    }
+  ]
+}

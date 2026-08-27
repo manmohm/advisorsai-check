@@ -1,0 +1,14 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "ai.advisorsai/store-readiness",
+  "title": "One-Page Readiness Check — 10 Signals, Arabic or English",
+  "description": "Ten machine-readable signals on one public page: the top miss if any, and a receipt we re-verify.",
+  "websiteUrl": "https://advisorsai.ai/",
+  "version": "1.0.6",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://advisorsai.ai/store-readiness-mcp"
+    }
+  ]
+}

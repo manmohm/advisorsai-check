@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "advisorsai-check"
-version = "1.0.0"
+version = "1.1.0"
 description = "Check bounded machine-readable public-page basics for search and answer engines."
 readme = "README.md"
 license = { text = "MIT" }
@@ -21,6 +21,9 @@ classifiers = [
 ]
 dependencies = ["html5lib==1.1", "webencodings==0.6.1"]
 
+[project.optional-dependencies]
+mcp = ["mcp==2.0.0"]
+
 [project.urls]
 Homepage = "https://advisorsai.ai"
 Source = "https://github.com/manmohm/advisorsai-check"
@@ -29,4 +32,4 @@ Source = "https://github.com/manmohm/advisorsai-check"
 advisorsai-check = "advisorsai_check.cli:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["advisorsai_check"]
+packages = ["advisorsai_check", "advisorsai_mcp"]
