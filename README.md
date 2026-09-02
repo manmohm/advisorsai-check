@@ -44,6 +44,12 @@ advisorsai-check  https://example.com
   64% of the declared public-page basics checked in this run are in place.
 ```
 
+## Use it as an Agent Skill
+
+Coding agents that follow the [Agent Skills](https://agentskills.io) format can load
+[`skills/ai-site-readiness/SKILL.md`](skills/ai-site-readiness/SKILL.md): it teaches the agent
+to run this check, read only observed evidence, and never claim rankings.
+
 ## What it checks
 
 | Signal | Why a machine cares |
