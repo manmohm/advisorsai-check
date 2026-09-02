@@ -5,11 +5,23 @@
 One command. No API key, no account, no signup.
 
 ```bash
+# one-off, nothing left behind (needs pipx: python -m pip install pipx)
+pipx run --spec git+https://github.com/manmohm/advisorsai-check advisorsai-check example.com
+
+# or install once
+pipx install git+https://github.com/manmohm/advisorsai-check
+advisorsai-check example.com
+```
+
+<details><summary>From a clone</summary>
+
+```bash
 git clone https://github.com/manmohm/advisorsai-check.git
 cd advisorsai-check
 python -m pip install .
 advisorsai-check example.com
 ```
+</details>
 
 ## Use it from Claude or any MCP client — no install
 
