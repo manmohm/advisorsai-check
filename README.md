@@ -1,5 +1,7 @@
 # advisorsai-check
 
+[![Listed on mcpservers.org](https://mcpservers.org/badge.svg)](https://mcpservers.org/servers/advisorsai-ai-en-services-html)
+
 **Does a public page expose the declared machine-readable basics that answer engines can use?**
 
 One command. No API key, no account, no signup.
