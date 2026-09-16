@@ -2,6 +2,7 @@
 
 [![Listed on mcpservers.org](https://mcpservers.org/badge.svg)](https://mcpservers.org/servers/advisorsai-ai-en-services-html)
 [![AI page readiness](https://advisorsai.ai/badge/ai-readiness.svg)](https://advisorsai.ai/see.html)
+[![skills.sh](https://skills.sh/b/manmohm/advisorsai-check)](https://skills.sh/manmohm/advisorsai-check)
 
 **Does a public page expose the declared machine-readable basics that answer engines can use?**
 
@@ -13,6 +14,13 @@ One command. No API key, no account, no signup.
 ```bash
 npx skills add manmohm/advisorsai-check
 ```
+
+```text
+/plugin marketplace add manmohm/advisorsai-check
+```
+
+Share a measured page (SSL Labs pattern):
+[https://advisorsai.ai/see.html?url=https://example.com](https://advisorsai.ai/see.html?url=https://example.com)
 
 ```bash
 # one-off, nothing left behind (needs pipx: python -m pip install pipx)
@@ -133,6 +141,15 @@ uncompressed identity representation; unsupported `Content-Encoding` values
 are rejected instead of being parsed as HTML bytes.
 
 ## Use it in CI
+
+GitHub Action (Ubuntu runner):
+
+```yaml
+- uses: manmohm/advisorsai-check@main
+  with:
+    url: https://example.com
+    min-score: "80"
+```
 
 `--json` gives you the full result. Exit code `0` means every checker returned;
 `1` means at least one check was unavailable or failed internally; and `2`

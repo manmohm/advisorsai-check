@@ -1,0 +1,9 @@
+{
+  "name": "ai-site-readiness",
+  "description": "Check whether one public page exposes machine-readable basics for AI answer engines. Reports observed evidence only.",
+  "version": "1.1.0",
+  "author": {
+    "name": "Advisors AI",
+    "url": "https://advisorsai.ai"
+  }
+}

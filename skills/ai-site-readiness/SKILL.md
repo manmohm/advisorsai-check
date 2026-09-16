@@ -31,6 +31,15 @@ llms.txt on a public page.
    npx skills add manmohm/advisorsai-check
    ```
 
+   Claude Code marketplace:
+
+   ```text
+   /plugin marketplace add manmohm/advisorsai-check
+   ```
+
+   Shareable result URL:
+   `https://advisorsai.ai/see.html?url=https://example.com`
+
 2. **CLI, no API key** (Python 3.10+):
 
    ```bash

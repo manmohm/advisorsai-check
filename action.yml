@@ -1,0 +1,40 @@
+name: "Advisors AI page readiness"
+description: "Check whether a public page exposes machine-readable basics for answer engines."
+author: "Advisors AI"
+branding:
+  icon: eye
+  color: green
+inputs:
+  url:
+    description: "Public HTTP(S) page to check"
+    required: true
+  min-score:
+    description: "Emit a GitHub warning when the bounded score is below this integer (0-100)"
+    required: false
+    default: "80"
+outputs:
+  score:
+    description: "Bounded score 0-100, or empty when the run was incomplete"
+    value: ${{ steps.run.outputs.score }}
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+    - id: run
+      shell: bash
+      env:
+        CHECK_URL: ${{ inputs.url }}
+        MIN_SCORE: ${{ inputs.min-score }}
+      run: |
+        set -euo pipefail
+        python -m pip install --quiet "${GITHUB_ACTION_PATH}"
+        result=$(advisorsai-check "$CHECK_URL" --json) || status=$?
+        printf '%s\n' "$result"
+        if [ -n "${status:-}" ]; then exit "$status"; fi
+        score=$(printf '%s' "$result" | python -c "import json,sys; d=json.load(sys.stdin); s=d.get('score'); print('' if s is None else s)")
+        echo "score=$score" >> "$GITHUB_OUTPUT"
+        if [ -n "$score" ] && [ "$score" -lt "$MIN_SCORE" ]; then
+          echo "::warning::bounded score ${score} is below ${MIN_SCORE}"
+        fi

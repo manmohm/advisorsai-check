@@ -1,0 +1,22 @@
+{
+  "name": "advisorsai",
+  "owner": {
+    "name": "Advisors AI",
+    "url": "https://advisorsai.ai"
+  },
+  "metadata": {
+    "description": "Bounded public-page readiness checks for AI answer engines and agents."
+  },
+  "plugins": [
+    {
+      "name": "ai-site-readiness",
+      "source": "./",
+      "description": "Check whether one public page exposes machine-readable basics. Reports observed evidence only — never rankings or sales predictions.",
+      "version": "1.1.0",
+      "author": {
+        "name": "Advisors AI",
+        "url": "https://advisorsai.ai"
+      }
+    }
+  ]
+}
