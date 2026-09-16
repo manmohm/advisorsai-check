@@ -1,10 +1,18 @@
 # advisorsai-check
 
 [![Listed on mcpservers.org](https://mcpservers.org/badge.svg)](https://mcpservers.org/servers/advisorsai-ai-en-services-html)
+[![AI page readiness](https://advisorsai.ai/badge/ai-readiness.svg)](https://advisorsai.ai/see.html)
 
 **Does a public page expose the declared machine-readable basics that answer engines can use?**
 
 One command. No API key, no account, no signup.
+
+**One click inside your agent** (GitHub strips `cursor://` links — use the live buttons):
+[https://advisorsai.ai/see.html](https://advisorsai.ai/see.html)
+
+```bash
+npx skills add manmohm/advisorsai-check
+```
 
 ```bash
 # one-off, nothing left behind (needs pipx: python -m pip install pipx)
@@ -60,9 +68,20 @@ advisorsai-check  https://example.com
 
 ## Use it as an Agent Skill
 
+```bash
+npx skills add manmohm/advisorsai-check
+```
+
 Coding agents that follow the [Agent Skills](https://agentskills.io) format can load
-[`skills/ai-site-readiness/SKILL.md`](skills/ai-site-readiness/SKILL.md): it teaches the agent
-to run this check, read only observed evidence, and never claim rankings.
+[`SKILL.md`](SKILL.md) at the repo root (GitHub topic `ai-skill`) or
+[`skills/ai-site-readiness/SKILL.md`](skills/ai-site-readiness/SKILL.md): they teach
+the agent to run this check, read only observed evidence, and never claim rankings.
+
+Embed the live checker on another README:
+
+```markdown
+[![AI page readiness](https://advisorsai.ai/badge/ai-readiness.svg)](https://advisorsai.ai/see.html)
+```
 
 ## What it checks
 
