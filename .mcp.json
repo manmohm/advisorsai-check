@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "advisorsai-store-readiness": {
+      "url": "https://advisorsai.ai/store-readiness-mcp"
+    }
+  }
+}
