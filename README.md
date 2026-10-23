@@ -74,6 +74,46 @@ advisorsai-check  https://example.com
   64% of the declared public-page basics checked in this run are in place.
 ```
 
+## Run the public-page basics MCP locally
+
+From a source checkout, install the optional MCP dependency with Python 3.10+:
+
+```bash
+python -m pip install ".[mcp]"
+advisorsai-public-page-mcp
+# equivalent: python -m advisorsai_check.mcp_stdio
+```
+
+The process speaks MCP over stdin/stdout and waits for a client. It exposes
+`advisors_public_page_basics_check(url)`, which calls the same bounded public
+`advisorsai_check.run` library used by the CLI. Its English report contains
+`url`, `success`, `score`, `coverage_percent`, `unchecked_count`, `signals`
+and `errors`. Each signal contains `key`, `ok`, `detail`, `weight` and
+`evidence`. An incomplete run keeps the library's `score: null`; coverage is
+reported separately. As in the CLI, returned text has terminal control channels
+removed and whitespace normalized; it remains untrusted data. The returned
+normalized URL retains its query string, so submit a URL that is safe to show
+in the MCP client.
+
+This portable mode needs no account, API key or HMAC material. It fetches only
+the supplied public origin through the existing checker's network safeguards.
+It does not proxy to Advisors AI, issue an HMAC receipt, or provide the
+official remote tool's one-finding capsule or Arabic/English language option.
+The official remote receipt-producing mode above remains available separately.
+Neither mode measures answer-engine rankings, mentions or sales.
+
+For a local MCP client:
+
+```json
+{
+  "mcpServers": {
+    "advisorsai-public-page-basics": {
+      "command": "advisorsai-public-page-mcp"
+    }
+  }
+}
+```
+
 ## Use it as an Agent Skill
 
 ```bash
@@ -126,10 +166,11 @@ advisorsai-check example.com
 
 The package is not yet published to PyPI. Do not use or advertise a
 `pip install advisorsai-check` command until the release exists there.
-The command-line checker core supports Python 3.9+. The optional remote-server
-dependencies require Python 3.10+, and the published server source is for
-inspection of the official operator deployment rather than a turn-key
-self-hosted promise. The package pins `html5lib==1.1` and
+The package requires Python 3.10+, including the command-line checker and
+optional MCP dependencies. The local stdio adapter above is portable. The
+published official remote-server source is for inspection of its operator
+deployment rather than a turn-key receipt-producing self-hosted promise.
+The package pins `html5lib==1.1` and
 `webencodings==0.6.1` so
 malformed HTML is interpreted with one stable HTML5 tree-construction contract
 and charset labels follow the WHATWG web-encoding registry. The HTML parser and

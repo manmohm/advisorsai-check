@@ -8,7 +8,7 @@ version = "1.1.0"
 description = "Check bounded machine-readable public-page basics for search and answer engines."
 readme = "README.md"
 license = { text = "MIT" }
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 keywords = ["llms.txt", "ai-crawlers", "structured-data", "seo", "gptbot", "claudebot", "aeo"]
 authors = [{ name = "Advisors AI", email = "hello@advisorsai.ai" }]
 classifiers = [
@@ -30,6 +30,7 @@ Source = "https://github.com/manmohm/advisorsai-check"
 
 [project.scripts]
 advisorsai-check = "advisorsai_check.cli:main"
+advisorsai-public-page-mcp = "advisorsai_check.mcp_stdio:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["advisorsai_check", "advisorsai_mcp"]
